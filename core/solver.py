@@ -33,13 +33,15 @@ def _solve_state(state_space: StateSpace, target: int, prob_win: Fraction, payou
                     StateSpace(
                         capital= (state_space.capital - bet) + int(bet * payout_ratio),
                         rounds_left= state_space.rounds_left - 1
-                    )
+                    ),
+                    target, prob_win, payout_ratio
                  )[0]
                  + (1 - prob_win) * _solve_state(
                     StateSpace(
                         capital= state_space.capital - bet,
                         rounds_left= state_space.rounds_left - 1
-                        )
+                    ),
+                    target, prob_win, payout_ratio
                 )[0]
             ),
             bet
@@ -61,7 +63,7 @@ class BettingSolver:
 
         scaled_state = StateSpace(
             capital= state_space.capital * self.scale_factor,
-            rounds_left= state_space.rounds_left * self.scale_factor
+            rounds_left= state_space.rounds_left
         )
 
         prob, scaled_bet = _solve_state(
