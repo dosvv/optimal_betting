@@ -8,7 +8,9 @@ def _solve_state(state_space: StateSpace, target: int, prob_win: Fraction, payou
     # base cases
     if state_space.capital >= target:
         return Fraction(1,1), 0
-    elif state_space.capital <= 0 or state_space.rounds_left == 0:
+    elif state_space.capital <= 0:
+        return Fraction(0,1), 0
+    elif state_space.rounds_left == 0:
         return Fraction(0,1), 0
 
     # recursive case
