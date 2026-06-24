@@ -8,8 +8,8 @@ class BettingMapGenerator:
     def generate(self) -> dict[StateSpace, tuple[Fraction, int]]:
         """
         :return:
-        :key: StateSpace(capital, rounds_left)
-        :value: (probability, optimal bet)
+            StateSpace(capital, rounds_left)
+            to (probability of success, optimal bet)
         """
         betting_map = {}
         capital = self.solver.original_target
