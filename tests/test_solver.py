@@ -1,7 +1,4 @@
 from fractions import Fraction
-
-from numpy.random.mtrand import set_state
-
 from core.models import StateSpace
 from core.solver import BettingSolver
 from core.betting_map import BettingMapGenerator
