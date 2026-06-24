@@ -55,6 +55,7 @@ class BettingSolver:
         self.prob_win = prob_win
         self.scale_factor = payout_ratio.denominator
         self.payout_ratio = payout_ratio * self.scale_factor
+        self.original_target = target
         self.target = target * self.scale_factor
 
     def solve_state(self, state_space: StateSpace) -> tuple[Fraction, int]:
