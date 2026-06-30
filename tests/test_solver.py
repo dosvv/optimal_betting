@@ -3,6 +3,7 @@ from core.models import StateSpace
 from core.solver import BettingSolver
 from core.betting_map import BettingMapGenerator
 
+
 def test_solver_generator():
     target = 5
     total_rounds = 3
