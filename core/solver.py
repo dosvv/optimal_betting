@@ -4,7 +4,8 @@ from functools import lru_cache
 
 
 @lru_cache(maxsize=None)
-def _solve_state(state_space: StateSpace, target: int, prob_win: Fraction, payout_ratio: Fraction) -> tuple[Fraction, int]:
+def _solve_state(state_space: StateSpace, target: int, prob_win: Fraction, payout_ratio: Fraction, scale_factor: int) -> tuple[Fraction, int]:
+    assert state_space.capital % scale_factor == 0
     # base cases
     if state_space.capital >= target:
         return Fraction(1,1), 0
@@ -17,56 +18,60 @@ def _solve_state(state_space: StateSpace, target: int, prob_win: Fraction, payou
     else:
         max_optimal_bet = int((target - state_space.capital) // (payout_ratio - 1))
 
-    max_bet = min(state_space.capital, max_optimal_bet)
+    max_bet = int(min(state_space.capital, max_optimal_bet))
 
-    if max_bet < 1:
+    if max_bet < scale_factor:
         return Fraction(0,1), 0
 
-    all_bets = range(1, max_bet + 1)
+    all_bets = list(range(scale_factor, max_bet + 1, scale_factor))
+    if not all_bets:
+        return Fraction(0,1), 0
 
     best_prob, best_bet = max(
         (
             (
                  prob_win * _solve_state(
                     StateSpace(
-                        capital= (state_space.capital - bet) + int(bet * payout_ratio),
+                        capital= int(state_space.capital - bet + bet * payout_ratio),
                         rounds_left= state_space.rounds_left - 1
                     ),
-                    target, prob_win, payout_ratio
+                    target, prob_win, payout_ratio, scale_factor
                  )[0]
                  + (1 - prob_win) * _solve_state(
                     StateSpace(
-                        capital= state_space.capital - bet,
+                        capital= int(state_space.capital - bet),
                         rounds_left= state_space.rounds_left - 1
                     ),
-                    target, prob_win, payout_ratio
+                    target, prob_win, payout_ratio, scale_factor
                 )[0]
             ),
-            bet
+            bet,
         )
         for bet in all_bets
     )
-
     return best_prob, best_bet
 
 class BettingSolver:
     def __init__(self, target: int, total_rounds: int, prob_win: Fraction, payout_ratio: Fraction):
         self.total_rounds = total_rounds
         self.prob_win = prob_win
+        
+        assert isinstance(payout_ratio, Fraction)
+
         self.scale_factor = payout_ratio.denominator
-        self.payout_ratio = payout_ratio * self.scale_factor
+        self.payout_ratio = payout_ratio
         self.original_target = target
         self.target = target * self.scale_factor
 
     def solve_state(self, state_space: StateSpace) -> tuple[Fraction, int]:
 
         scaled_state = StateSpace(
-            capital= state_space.capital * self.scale_factor,
+            capital= int(state_space.capital * self.scale_factor),
             rounds_left= state_space.rounds_left
         )
 
         prob, scaled_bet = _solve_state(
-            scaled_state, self.target, self.prob_win, self.payout_ratio
+            scaled_state, self.target, self.prob_win, self.payout_ratio, self.scale_factor
         )
 
         return prob, scaled_bet // self.scale_factor
