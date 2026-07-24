@@ -1,18 +1,8 @@
-import fractions
 import math
 import random
 from fractions import Fraction
 
 from core.models import StateSpace
-from core.solver import BettingSolver
-from core.betting_map import BettingMapGenerator
-
-from core.strategies.bold import BoldStrategy
-from core.strategies.cautious import CautiousStrategy
-from core.strategies.DP import DPStrategy
-from core.strategies.DP_modified import DPModStrategy
-from core.strategies.kelly import KellyStrategy
-from core.strategies.proportion import ProportionalStrategy
 
 def get_capital_history(
         strategy, init_capital: Fraction, target: int, total_rounds: int, prob_win: Fraction,
