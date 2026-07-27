@@ -14,7 +14,7 @@ pravděpodobnost dosažení cíle $T$ pomocí dynamického
 programování), porovnat ji s několika heuristickými strategiemi pomocí
 Monte Carlo simulací a výsledky zobrazit v interaktivní webové aplikaci.
 
-Kompletní dokumentace je v `optimal_betting_dokumentace.docx`.
+Kompletní dokumentace je v `dokumentace.md`.
 
 ## Instalace
 
