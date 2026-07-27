@@ -16,7 +16,7 @@ $T \in \mathbb{N}$ ($T > C_0$). V každém kole $k$ vsadí celočíselnou část
 
 ---
 
-## 2. Uživatelská příručka
+## 2. Uživatelská část
 
 ### Požadavky a spuštění
 
