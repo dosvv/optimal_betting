@@ -20,10 +20,14 @@ $T \in \mathbb{N}$ ($T > C_0$). V každém kole $k$ vsadí celočíselnou část
 
 ### Požadavky a spuštění
 
-Aplikace vyžaduje `Python >= 3.10` a knihovny uvedené v `requirements.txt`.
+Aplikace vyžaduje `Python >= 3.9` a knihovny uvedené v `requirements.txt`.
 
-1. Instalace závislostí: `pip install -r requirements.txt`
-2. Spuštění aplikace: `streamlit run app.py`
+```bash
+python -m venv venv
+source venv/bin/activate      # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+`streamlit run app.py`
+```
 
 ### Ovládání aplikace
 
